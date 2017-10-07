@@ -146,8 +146,8 @@ void track_1( int, void* opn )
     imshow("Composite",yul);                                        // live display with change of values (scaled down)
     imshow("Matte",aly);    
        
-    string alnam = get_file_name("/home/hulio/RPI/CVFX/HW_2/rain_frames_alpha/alpha","Kung_Fu",al1,al2,al3);
-    string comnam = get_file_name("/home/hulio/RPI/CVFX/HW_2/rain_composite/composite","Kung_Fu",al1,al2,al3);
+    string alnam = get_file_name("rain_frames_alpha/alpha","Kung_Fu",al1,al2,al3);
+    string comnam = get_file_name("rain_composite/composite","Kung_Fu",al1,al2,al3);
     
     normalize(alpha,alpha,0,255,NORM_MINMAX);
     alpha.convertTo(alpha,CV_8U); 
