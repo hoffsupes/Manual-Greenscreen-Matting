@@ -3,7 +3,20 @@ Greenscreen Matting done on still images and greenscreen videos.
 Results and code included within.
 dassg@rpi.edu
 
+Matting done according to the greenscreen matting equation:
 
+alpha_matte = 1 - a1*( Green_layer - a2*Blue_layer );
+
+and 
+
+alpha_matte(foreground_region) = power(alpha_matte(foreground_region),gamma);
+
+a1: tunable parameter
+a2: tunable parameter
+gamma: tunable parameter, represents power
+Green_layer : Green layer of source image
+Blue_layer : Blue layer of source image
+ 
 If you're on linux, you can use some of the software I wrote (if you have OpenCV 3.0 Installed):
 
 MATTE AND COMPOSITE GENERATOR
