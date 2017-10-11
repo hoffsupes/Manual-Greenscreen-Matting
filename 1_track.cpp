@@ -20,13 +20,13 @@ Mat apply_alpha(Mat I, Mat alpha)
  return R;   
 }
 
-int a1,a2,a3;
+int a1,a2,a3,a4;
 int k = 10;                                         // Values between +/- k needed
 int am = 2*k*1000;                                  // 2k values considered, then values scaled down to smaller ones i.e. if n lies between 0 to 2k then it will be considered 
                                                     // as (n - k)/1000. Thus being mapped to a number between -k and k. The 1000 is there to allow for very fine values between 
                                                     // +k and -k as the threshold values adjust better to smaller changes it seems
 Mat I,T;
-float al1,al2,al3;
+float al1,al2,al3,al4;
 
 Mat get_composite(string nam, string nam2, string nam3,string n)            // extra function created for easy compositing, when manually needed to do so, requires only    
                                                                             // location of the files
@@ -106,6 +106,12 @@ void track_1( int, void* opn )
     al3 = float(a3)/float(1000);
     cout << "\n a3:" << al3 << "\n";                    //gamma
     }
+    else if(*val == 3)
+    {
+    a4 = a4 - (k*1000);   
+    al4 = float(a4)/float(1000);
+    cout << "\n a3:" << al4 << "\n";                    //gamma
+    }
  
  
     Mat Ib,Ig,Ir;
@@ -121,14 +127,21 @@ void track_1( int, void* opn )
 
     Mat mal,m2,m3;                                      //
     m2 = Mat::zeros(alpha.size(),CV_32F);               //
+    m3 = Mat::zeros(alpha.size(),CV_32F);               //
     alpha.copyTo(mal);                                  //
     mal.convertTo(mal,CV_8U);                           //
     threshold(mal,mal,255,1,THRESH_OTSU);               // determine mask to threshold only the FG region in alpha
+    Mat mal2 = 255*(mal==0);
     
     alpha.copyTo(m2,mal); 
+    alpha.copyTo(m3,mal2); 
     
     pow(m2,al3,m2);                 
+    pow(m3,-al4,m3);                 
+    
     m2.copyTo(alpha,mal);                               // gamma correct only portion specified by mask
+    m3.copyTo(alpha,mal2);                               // gamma correct only portion specified by mask
+    
     
     Mat aly;
     resize(alpha,aly,alpha.size()/3);
@@ -180,7 +193,8 @@ int main(int argc, char *argv[])
     namedWindow("Matte", 1);
     createTrackbar("a1", "Matte", &a1, am, track_1, new int(0) );       // a1
     createTrackbar("a2", "Matte", &a2, am, track_1, new int(1) );       // a2   
-    createTrackbar("a3", "Matte", &a3, am, track_1, new int(2) );       // gamma
+    createTrackbar("a3", "Matte", &a3, am, track_1, new int(2) );       // gamma1
+    createTrackbar("a4", "Matte", &a4, am, track_1, new int(3) );       // gamma2
     waitKey();
 
     
