@@ -60,13 +60,14 @@ Mat get_composite(string nam, string nam2, string nam3,string n)            // e
     return R;
 }
 
-string get_file_name(string img, string spc,float a1, float a2,float a3)
+string get_file_name(string img, string spc,float a1, float a2,float a3,float a4)
 {
         
     
     string a_1 = to_string(a1);
     string a_2 = to_string(a2);
     string a_3 = to_string(a3);
+    string a_4 = to_string(a4);
     
     string nam(img.data());
     nam.append(spc.data());
@@ -76,6 +77,8 @@ string get_file_name(string img, string spc,float a1, float a2,float a3)
     nam.append(a_2);
     nam.append("_");
     nam.append(a_3);
+    nam.append("_");
+    nam.append(a_4);
     nam.append(".jpeg");
 
     return nam;
@@ -104,13 +107,13 @@ void track_1( int, void* opn )
     {
     a3 = a3 - (k*1000);   
     al3 = float(a3)/float(1000);
-    cout << "\n a3:" << al3 << "\n";                    //gamma
+    cout << "\n a3:" << al3 << "\n";                    //gamma1
     }
     else if(*val == 3)
     {
     a4 = a4 - (k*1000);   
     al4 = float(a4)/float(1000);
-    cout << "\n a3:" << al4 << "\n";                    //gamma
+    cout << "\n a3:" << al4 << "\n";                    //gamma2
     }
  
  
@@ -156,8 +159,8 @@ void track_1( int, void* opn )
     imshow("Composite",yul);                                        // live display with change of values (scaled down)
     imshow("Matte",aly);    
        
-    string alnam = get_file_name("alpha","img",al1,al2,al3);
-    string comnam = get_file_name("composite","img",al1,al2,al3);
+    string alnam = get_file_name("alpha","img",al1,al2,al3,al4);
+    string comnam = get_file_name("composite","img",al1,al2,al3,al4);
     
     normalize(alpha,alpha,0,255,NORM_MINMAX);
     alpha.convertTo(alpha,CV_8U); 
